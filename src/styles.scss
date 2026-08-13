@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'sass:meta';
+@use 'sass:map';
+
+// Ahorra — Material Design 3 palettes derived from the Organic design system.
+// primary   = terracotta  (#c67139 base, tone 40 = #8c491a)
+// secondary = sage        (#7a8a5e base, tone 40 = #56633f)
+// tertiary  = berry       (cashback / rewards accent)
+// neutrals are warm (cream ground #f5ead8, ink #201e1d)
+
+$primary-palette: (
+  0: #000000, 10: #2f1600, 20: #4d2600, 25: #5b2f06, 30: #6a3a10, 35: #79441a,
+  40: #8c491a, 50: #ab6127, 60: #cb7d3e, 70: #eb9a57, 80: #ffb787, 90: #ffe1d0,
+  95: #fff2eb, 98: #fff8f4, 99: #fffbfa, 100: #ffffff,
+
+  secondary: (
+    0: #000000, 10: #16210a, 20: #2a3719, 25: #354223, 30: #404e2d, 35: #4b5a37,
+    40: #56633f, 50: #6f7d56, 60: #88976d, 70: #a3b285, 80: #bfcfa0, 90: #dbecbb,
+    95: #e9fac8, 98: #f4ffdd, 99: #fafff0, 100: #ffffff,
+  ),
+  neutral: (
+    0: #000000, 10: #201e1d, 20: #35322f, 25: #403d39, 30: #4c4844, 35: #58534f,
+    40: #645f5a, 50: #7e7873, 60: #98928c, 70: #b3aca6, 80: #cfc8c1, 90: #ebe3dc,
+    95: #f5ead8, 98: #fdf6ea, 99: #fffbf5, 100: #ffffff,
+    4: #0d0c0b, 6: #131211, 12: #262422, 17: #302d2b, 22: #3a3734, 24: #3f3c38,
+    87: #e1d9d2, 92: #f0e8e0, 94: #f4ece3, 96: #f8f0e7,
+  ),
+  neutral-variant: (
+    0: #000000, 10: #1e2018, 20: #33362b, 25: #3e4135, 30: #494d40, 35: #55594b,
+    40: #616556, 50: #7a7e6e, 60: #949887, 70: #afb3a1, 80: #cbcfbb, 90: #e7ebd6,
+    95: #f5f9e4, 98: #fdfff0, 99: #ffffff, 100: #ffffff,
+  ),
+  error: (
+    0: #000000, 10: #410002, 20: #690005, 25: #7e0007, 30: #93000a, 35: #a80710,
+    40: #ba1a1a, 50: #de3730, 60: #ff5449, 70: #ff8a80, 80: #ffb4ab, 90: #ffdad6,
+    95: #ffedea, 98: #fff8f7, 99: #fffbff, 100: #ffffff,
+  ),
+);
+
+$tertiary-palette: (
+  0: #000000, 10: #3b0a17, 20: #571d29, 25: #652734, 30: #74313f, 35: #833c4a,
+  40: #924756, 50: #b15f6e, 60: #d17887, 70: #f292a1, 80: #ffb1bc, 90: #ffd9df,
+  95: #ffecef, 98: #fff8f8, 99: #fffbff, 100: #ffffff,
+);
+
+// Design tokens — every tone in every palette exposed as a CSS custom
+// property, so components style themselves with var(--color-...) instead of
+// duplicating hex values. Naming mirrors the M3 tone (tone 60 -> "-600"),
+// e.g. --color-neutral-600, --color-primary-400.
+:root {
+  @each $tone, $value in $primary-palette {
+    @if meta.type-of($value) == 'color' {
+      --color-primary-#{$tone * 10}: #{$value};
+    }
+  }
+  @each $tone, $value in map.get($primary-palette, secondary) {
+    --color-secondary-#{$tone * 10}: #{$value};
+  }
+  @each $tone, $value in map.get($primary-palette, neutral) {
+    --color-neutral-#{$tone * 10}: #{$value};
+  }
+  @each $tone, $value in map.get($primary-palette, neutral-variant) {
+    --color-neutral-variant-#{$tone * 10}: #{$value};
+  }
+  @each $tone, $value in map.get($primary-palette, error) {
+    --color-error-#{$tone * 10}: #{$value};
+  }
+  @each $tone, $value in $tertiary-palette {
+    --color-tertiary-#{$tone * 10}: #{$value};
+  }
+
+  // Semantic roles used across components (M3 light scheme).
+  --color-primary-container: var(--color-primary-900);
+  --color-on-primary-container: var(--color-primary-100);
+  --color-surface: var(--color-neutral-990);
+  --color-on-surface: var(--color-neutral-100);
+
+  // Typography — Nunito's rounded terminals match the pill/circle shapes
+  // used across search bar and cards. One family for headings and body
+  // keeps the type system simple; weight carries the hierarchy instead.
+  --font-family-base: 'Nunito', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  // Radii — shared so every component reaches for the same set of curves
+  // instead of hand-picking pixel values (999px, 50%, etc).
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+}
+
+html,
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  color: var(--color-on-surface);
+  background: var(--color-surface);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-base);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+// Breakpoints — mobile-first app; 1024px is where touch/mobile layouts give
+// way to mouse + keyboard desktop use (matches Tailwind's `lg` and Material's
+// desktop breakpoint).
+$breakpoint-desktop: 1024px;
+
+// Scrollbars — hidden by default everywhere (native app feel on mobile),
+// restored on desktop where a visible scrollbar is expected.
+* {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (min-width: $breakpoint-desktop) {
+  * {
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
+
+    &::-webkit-scrollbar {
+      display: block;
+    }
+  }
+}

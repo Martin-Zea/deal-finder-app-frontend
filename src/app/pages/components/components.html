@@ -1,0 +1,23 @@
+<main class="components-page">
+  <h1>Componentes</h1>
+
+  <section class="components-page__section">
+    <h2>Search Bar</h2>
+    <app-search-bar placeholder="Buscar productos..." (searchSubmit)="onSearch($event)" />
+    @if (lastSearch(); as term) {
+      <p>Último término buscado (simula la llamada a backend): "{{ term }}"</p>
+    }
+  </section>
+
+  <section class="components-page__section">
+    <h2>Card</h2>
+    <div class="components-page__grid">
+      <app-card storeName="Amazon" logoUrl="https://cdn.vectorstock.com/i/250p/39/87/amazon-logo-smile-icon-vector-34243987.avif" />
+      <app-card storeName="Target" [isLinked]="false" logoUrl="https://www.logo.wine/a/logo/Target_Corporation/Target_Corporation-Logo.wine.svg"/>
+      <app-card storeName="Walmart" />
+      <app-card storeName="Costco" />
+      <app-card storeName="Best Buy" />
+      <app-card storeName="Kroger" />
+    </div>
+  </section>
+</main>

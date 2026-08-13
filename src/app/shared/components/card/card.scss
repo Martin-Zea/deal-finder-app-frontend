@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 8px;
+}
+
+.card__avatar {
+  position: relative;
+  width: 64%;
+  aspect-ratio: 1 / 1;
+}
+
+.card__logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.card__logo--placeholder {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-neutral-900) 0 10px,
+    var(--color-neutral-800) 10px 20px
+  );
+}
+
+.card__badge {
+  position: absolute;
+  right: -2%;
+  bottom: -2%;
+  width: 32%;
+  aspect-ratio: 1 / 1;
+  min-width: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--color-surface);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+.card__badge-icon {
+  width: 55%;
+  height: 55%;
+  fill: none;
+  stroke: var(--color-primary-400);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.card__name {
+  color: var(--color-on-surface);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+}

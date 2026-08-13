@@ -1,0 +1,21 @@
+.components-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.components-page__section + .components-page__section {
+  margin-top: 40px;
+}
+
+.components-page__grid {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+
+  app-card {
+    flex: 0 0 76px;
+    scroll-snap-align: start;
+  }
+}
