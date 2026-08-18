@@ -58,10 +58,16 @@
       [fullWidth]="true"
       [loading]="activating()"
       [disabled]="activated()"
-      (pressed)="activate()"
+      (pressed)="onActivate()"
     >
       {{ activated() ? 'Cupón activado' : 'Activar cupón' }}
     </app-button>
+
+    @if (activationFailed()) {
+      <p class="detail__activation-error" role="alert">
+        No pudimos activar el cupón. Probá de nuevo en un momento.
+      </p>
+    }
 
     @if (coupon.products.length) {
       <app-section heading="Productos incluidos">

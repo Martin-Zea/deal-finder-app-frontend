@@ -127,3 +127,23 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+// El avatar entra dentro del mismo botón de 44px que el resto de las acciones,
+// así la fila no cambia de alto según haya sesión o no.
+.app-bar__avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+.app-bar__avatar--initial {
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+  font-size: 0.85rem;
+  font-weight: 800;
+  line-height: 1;
+}

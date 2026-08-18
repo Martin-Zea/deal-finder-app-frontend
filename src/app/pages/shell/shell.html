@@ -1,0 +1,12 @@
+<!--
+  El detalle del cupón queda fuera de este shell a propósito: es una pantalla a
+  la que se entra y de la que se vuelve, no un destino de la navegación
+  principal, y la barra de abajo ahí solo ofrecería escapes.
+-->
+<div class="shell">
+  <div class="shell__content">
+    <router-outlet />
+  </div>
+
+  <app-tab-bar class="shell__tabs" [tabs]="tabs" />
+</div>

@@ -3,6 +3,11 @@
 // con esto, se adapta ahí y la pantalla no se entera.
 export interface CouponSummary {
   readonly id: string;
+
+  // En el resumen y no solo en el detalle porque la home filtra por tienda: la
+  // lista tiene que saber de quién es cada cupón sin pedir el detalle de todos.
+  readonly storeId: string;
+
   readonly title: string;
   readonly description: string;
   readonly imageUrl: string | null;

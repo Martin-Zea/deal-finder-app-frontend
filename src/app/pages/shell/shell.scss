@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+.shell__content {
+  flex: 1;
+}
+
+// sticky y no fixed: así la barra participa del flujo y el contenido nunca
+// queda tapado por ella, sin tener que reservar padding a mano.
+.shell__tabs {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+}

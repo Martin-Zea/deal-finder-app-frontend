@@ -1,0 +1,35 @@
+<!--
+  routerLinkActive publica el estado en aria-current además de en la clase: es
+  la única forma de que un lector de pantalla sepa en qué pestaña está parado.
+-->
+<nav class="tab-bar" aria-label="Secciones">
+  @for (tab of tabs(); track tab.link) {
+    <a
+      class="tab-bar__tab"
+      routerLinkActive="tab-bar__tab--active"
+      ariaCurrentWhenActive="page"
+      [routerLink]="tab.link"
+      [routerLinkActiveOptions]="{ exact: tab.exact ?? false }"
+    >
+      <svg class="tab-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
+        @switch (tab.icon) {
+          @case ('home') {
+            <path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1Z" />
+          }
+          @case ('ticket') {
+            <path
+              d="M3 9V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a3 3 0 0 0 0 6v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a3 3 0 0 0 0-6Z"
+            />
+            <line x1="14" y1="7" x2="14" y2="17" />
+          }
+          @case ('user') {
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+          }
+        }
+      </svg>
+
+      <span class="tab-bar__label">{{ tab.label }}</span>
+    </a>
+  }
+</nav>

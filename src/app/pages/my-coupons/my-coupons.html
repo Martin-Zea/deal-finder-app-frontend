@@ -1,0 +1,53 @@
+<app-app-bar heading="Mis cupones" />
+
+<main class="my-coupons">
+  @if (!auth.isSignedIn()) {
+    <!--
+      Se entra a la pestaña y recién adentro se pide la cuenta: disparar la hoja
+      al tocar la pestaña convertiría más, pero deja la pantalla en blanco por
+      detrás si el usuario cancela, y se siente como un peaje.
+    -->
+    <app-empty-state
+      heading="Acá van tus cupones"
+      message="Cuando actives un cupón lo vas a encontrar en esta pestaña, listo para usar en la tienda."
+    >
+      <svg icon viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M3 9V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a3 3 0 0 0 0 6v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a3 3 0 0 0 0-6Z"
+        />
+        <line x1="14" y1="7" x2="14" y2="17" />
+      </svg>
+
+      <app-button (pressed)="signIn()">Continuar con Google</app-button>
+    </app-empty-state>
+  } @else if (mine.isLoading()) {
+    @for (row of skeletonRows; track row) {
+      <app-coupon [loading]="true" />
+    }
+  } @else if (mine.error()) {
+    <app-error-state (retry)="mine.reload()" />
+  } @else if (mine.value(); as list) {
+    @if (list.length === 0) {
+      <app-empty-state
+        heading="Todavía no activaste ninguno"
+        message="Abrí una oferta desde Inicio y tocá «Activar cupón»: acá te queda guardada."
+      >
+        <svg icon viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M3 9V7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v2a3 3 0 0 0 0 6v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a3 3 0 0 0 0-6Z"
+          />
+          <line x1="14" y1="7" x2="14" y2="17" />
+        </svg>
+      </app-empty-state>
+    } @else {
+      @for (coupon of list; track coupon.id) {
+        <app-coupon
+          [title]="coupon.title"
+          [description]="coupon.description"
+          [imageUrl]="coupon.imageUrl"
+          [link]="'/cupon/' + coupon.id"
+        />
+      }
+    }
+  }
+</main>

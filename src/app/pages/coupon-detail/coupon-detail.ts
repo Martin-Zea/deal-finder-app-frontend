@@ -8,6 +8,7 @@ import { ImageBox } from '../../shared/components/image/image';
 import { Section } from '../../shared/components/section/section';
 import { Skeleton } from '../../shared/components/skeleton/skeleton';
 import { StorePill } from '../../shared/components/store-pill/store-pill';
+import { AuthService } from '../../shared/services/auth.service';
 import { CouponService } from '../../shared/services/coupon.service';
 
 @Component({
@@ -23,6 +24,7 @@ export class CouponDetailPage {
 
   private readonly coupons = inject(CouponService);
   private readonly location = inject(Location);
+  private readonly auth = inject(AuthService);
 
   // resource() vuelve a pedir solo cuando cambia params: navegar de /cupon/1 a
   // /cupon/2 recarga sin que nadie escriba un efecto.
@@ -37,18 +39,34 @@ export class CouponDetailPage {
   protected readonly headingText = computed(() => this.detail.value()?.title ?? 'Cupón');
 
   protected readonly activating = signal(false);
-  protected readonly activated = signal(false);
+
+  // Sin toast todavía, el fallo de la activación se cuenta al lado del botón:
+  // dejar la promesa sin catch hacía que el error se perdiera y el usuario
+  // viera el botón volver a su estado inicial sin explicación.
+  protected readonly activationFailed = signal(false);
+
+  // El estado de activado vive en el servicio y no acá: al volver a esta
+  // pantalla desde «Mis cupones» tiene que seguir diciendo lo mismo.
+  protected readonly activated = computed(() => this.coupons.activatedIds().includes(this.id()));
 
   protected goBack(): void {
     this.location.back();
   }
 
-  protected async activate(): Promise<void> {
+  // Sin sesión no se activa nada, pero tampoco se pierde el gesto: el servicio
+  // guarda esta misma función y la ejecuta cuando el login termina bien.
+  protected onActivate(): void {
+    this.auth.requestSignIn(() => void this.activate());
+  }
+
+  private async activate(): Promise<void> {
     this.activating.set(true);
+    this.activationFailed.set(false);
 
     try {
       await this.coupons.activate(this.id());
-      this.activated.set(true);
+    } catch {
+      this.activationFailed.set(true);
     } finally {
       this.activating.set(false);
     }

@@ -1,4 +1,4 @@
-import { Component, input, output, signal } from '@angular/core';
+import { Component, input, linkedSignal, output } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -9,7 +9,12 @@ import { Component, input, output, signal } from '@angular/core';
 export class SearchBar {
   readonly placeholder = input('Buscar oferta, marca o tienda');
 
-  protected readonly query = signal('');
+  // El valor puede venir de afuera para poder limpiarlo desde la pantalla: sin
+  // esto, borrar el filtro dejaba el texto viejo escrito en el input.
+  // linkedSignal deja escribir localmente y se resetea cuando cambia el input.
+  readonly value = input('');
+
+  protected readonly query = linkedSignal(() => this.value());
 
   readonly searchSubmit = output<string>();
 

@@ -72,5 +72,19 @@
         </svg>
       </button>
     }
+    @if (showAvatar()) {
+      <button
+        type="button"
+        class="app-bar__action"
+        aria-label="Tu cuenta"
+        (click)="avatarClick.emit()"
+      >
+        @if (avatarUrl(); as src) {
+          <img class="app-bar__avatar" [src]="src" alt="" />
+        } @else {
+          <span class="app-bar__avatar app-bar__avatar--initial">{{ avatarInitial() }}</span>
+        }
+      </button>
+    }
   </div>
 </header>

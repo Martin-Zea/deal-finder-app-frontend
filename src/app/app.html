@@ -1,1 +1,34 @@
 <router-outlet />
+
+<app-bottom-sheet
+  [open]="auth.promptOpen()"
+  ariaLabel="Iniciar sesión"
+  (closed)="auth.dismissPrompt()"
+>
+  <!--
+    El título dice qué se gana y no qué hay que hacer: "iniciá sesión para
+    continuar" describe el trámite, no el beneficio.
+  -->
+  <h2 class="login__title">Guardá tus cupones</h2>
+  <p class="login__text">
+    Con tu cuenta activás cupones en un toque y los encontrás después en «Mis cupones».
+  </p>
+
+  <app-button
+    size="lg"
+    [fullWidth]="true"
+    [loading]="auth.signingIn()"
+    (pressed)="auth.signInWithGoogle()"
+  >
+    Continuar con Google
+  </app-button>
+
+  <!-- Salida siempre visible: el login no puede ser un callejón sin salida. -->
+  <app-button variant="text" [fullWidth]="true" (pressed)="auth.dismissPrompt()">
+    Ahora no
+  </app-button>
+
+  <p class="login__legal">
+    Solo usamos tu cuenta para identificarte. No publicamos nada ni accedemos a tus contactos.
+  </p>
+</app-bottom-sheet>

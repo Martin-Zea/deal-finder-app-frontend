@@ -1,0 +1,29 @@
+// Los estilos de la hoja de login viven acá porque su contenido se proyecta
+// desde este componente: app-bottom-sheet solo pone el marco, el fondo y el
+// comportamiento.
+.login__title {
+  margin: 4px 0 8px;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.login__text {
+  margin: 0 0 20px;
+  color: var(--color-on-surface-variant);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.login__legal {
+  margin: 16px 0 0;
+  color: var(--color-on-surface-variant);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+// Los dos botones de la hoja van uno debajo del otro; el gap lo pone el
+// hermano porque el panel proyecta el contenido sin envolverlo.
+app-button + app-button {
+  margin-top: 8px;
+}

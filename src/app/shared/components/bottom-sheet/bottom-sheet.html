@@ -1,0 +1,23 @@
+@if (open()) {
+  <!--
+    El fondo es un div y no un button: un botón acá le agregaría una parada de
+    tabulador sin nombre a la trampa de foco. Cerrar tocando afuera es un atajo
+    de mouse, y el teclado ya tiene Escape.
+  -->
+  <div class="sheet">
+    <div class="sheet__backdrop" (click)="onBackdrop()"></div>
+
+    <div
+      #panel
+      class="sheet__panel"
+      role="dialog"
+      aria-modal="true"
+      tabindex="-1"
+      [attr.aria-label]="ariaLabel()"
+      (keydown)="onKeydown($event)"
+    >
+      <span class="sheet__handle" aria-hidden="true"></span>
+      <ng-content />
+    </div>
+  </div>
+}

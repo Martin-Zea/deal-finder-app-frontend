@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+.home__banner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 18px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-container);
+}
+
+.home__banner-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.home__banner-text {
+  margin: 0 0 10px;
+  color: var(--color-on-surface-variant);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+// La fila desborda a propósito: es scroll horizontal, y los márgenes negativos
+// dejan que las tiendas lleguen al borde de la pantalla en vez de cortarse
+// contra el padding de la página.
+.home__stores {
+  display: flex;
+  gap: 14px;
+  margin: 0 -16px;
+  padding: 4px 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.home__store,
+.home__store-skeleton {
+  flex: 0 0 84px;
+  scroll-snap-align: start;
+}
+
+.home__store {
+  padding: 4px;
+  border: 2px solid transparent;
+  border-radius: var(--radius-lg);
+  background: transparent;
+  color: inherit;
+  font-family: inherit;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// La tienda elegida se marca con borde y fondo, no con color de texto: la
+// tarjeta es casi toda imagen y un cambio de tinta no se vería.
+.home__store--active {
+  border-color: var(--color-primary);
+  background: var(--color-primary-container);
+}
+
+.home__store-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+}
+
+.home__inline-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: 0.9rem;
+}

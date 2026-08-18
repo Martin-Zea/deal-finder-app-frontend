@@ -12,6 +12,8 @@ import { ImageBox } from '../../shared/components/image/image';
 import { Section } from '../../shared/components/section/section';
 import { Skeleton } from '../../shared/components/skeleton/skeleton';
 import { StorePill } from '../../shared/components/store-pill/store-pill';
+import { BottomSheet } from '../../shared/components/bottom-sheet/bottom-sheet';
+import { TabBar, TabItem } from '../../shared/components/tab-bar/tab-bar';
 import { CouponService } from '../../shared/services/coupon.service';
 
 export type ThemeName = 'krazy' | 'punch' | 'organic' | 'money';
@@ -38,6 +40,8 @@ interface ThemeOption {
     Section,
     Skeleton,
     StorePill,
+    BottomSheet,
+    TabBar,
   ],
   templateUrl: './components.html',
   styleUrl: './components.scss',
@@ -86,6 +90,16 @@ export class ComponentsPage {
   protected readonly coupons = inject(CouponService);
 
   protected readonly buttonBusy = signal(false);
+
+  // Las pestañas del catálogo apuntan a las rutas reales: así se ve cuál queda
+  // marcada como activa, que es la mitad del componente.
+  protected readonly demoTabs: readonly TabItem[] = [
+    { label: 'Inicio', link: '/', icon: 'home', exact: true },
+    { label: 'Mis cupones', link: '/mis-cupones', icon: 'ticket' },
+    { label: 'Perfil', link: '/perfil', icon: 'user' },
+  ];
+
+  protected readonly sheetOpen = signal(false);
 
   protected async runButtonDemo(): Promise<void> {
     this.buttonBusy.set(true);

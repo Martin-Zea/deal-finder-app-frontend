@@ -1,0 +1,50 @@
+<app-app-bar heading="Perfil" />
+
+<main class="profile">
+  @if (auth.user(); as user) {
+    <div class="profile__identity">
+      @if (user.avatarUrl) {
+        <app-image class="profile__avatar" [src]="user.avatarUrl" [alt]="user.name" radius="pill" />
+      } @else {
+        <span class="profile__initial" aria-hidden="true">{{ initial() }}</span>
+      }
+
+      <div class="profile__names">
+        <p class="profile__name">{{ user.name }}</p>
+        <p class="profile__email">{{ user.email }}</p>
+      </div>
+    </div>
+
+    <app-section heading="Tiendas vinculadas">
+      @if (stores.isLoading()) {
+        <app-skeleton height="52px" radius="pill" />
+        <app-skeleton height="52px" radius="pill" />
+      } @else if (linkedStores().length === 0) {
+        <p class="profile__hint">
+          Todavía no vinculaste ninguna tarjeta de tienda. Sin eso, algunos cupones no se pueden
+          activar.
+        </p>
+      } @else {
+        @for (store of linkedStores(); track store.id) {
+          <app-store-pill [storeName]="store.name" [logoUrl]="store.logoUrl" />
+        }
+      }
+    </app-section>
+
+    <app-button variant="outlined" [fullWidth]="true" (pressed)="signOut()">
+      Cerrar sesión
+    </app-button>
+  } @else {
+    <app-empty-state
+      heading="Entrá a tu cuenta"
+      message="Con tu cuenta guardás los cupones que activás y vinculás las tarjetas de tus tiendas."
+    >
+      <svg icon viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+      </svg>
+
+      <app-button (pressed)="signIn()">Continuar con Google</app-button>
+    </app-empty-state>
+  }
+</main>

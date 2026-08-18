@@ -114,6 +114,40 @@
   </section>
 
   <section class="components-page__section">
+    <h2>Tab bar</h2>
+    <div class="components-page__list">
+      <app-tab-bar [tabs]="demoTabs" />
+    </div>
+    <p class="components-page__sample-label">
+      Apunta a las rutas reales: la pestaña activa se marca sola según dónde estés parado.
+    </p>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Bottom sheet</h2>
+    <button type="button" class="components-page__toggle" (click)="sheetOpen.set(true)">
+      Abrir hoja
+    </button>
+    <p class="components-page__sample-label">
+      Se cierra con Escape, tocando el fondo o con el botón. Mientras está abierta, el foco no se
+      escapa al contenido de atrás y la página no scrollea.
+    </p>
+
+    <app-bottom-sheet
+      ariaLabel="Hoja de ejemplo"
+      [open]="sheetOpen()"
+      (closed)="sheetOpen.set(false)"
+    >
+      <h3>Una hoja de ejemplo</h3>
+      <p>
+        El contenido lo proyecta quien la usa: la hoja solo pone el marco, el fondo y el
+        comportamiento.
+      </p>
+      <app-button [fullWidth]="true" (pressed)="sheetOpen.set(false)">Entendido</app-button>
+    </app-bottom-sheet>
+  </section>
+
+  <section class="components-page__section">
     <h2>Button</h2>
     <div class="components-page__row">
       <app-button (pressed)="runButtonDemo()">Activar cupón</app-button>

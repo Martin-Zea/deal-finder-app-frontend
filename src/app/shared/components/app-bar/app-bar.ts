@@ -24,12 +24,19 @@ export class AppBar {
   readonly showMenu = input(false);
   readonly showSearch = input(false);
   readonly showNotifications = input(false);
+
+  // El avatar es la señal de sesión iniciada. Va acá y no como un componente
+  // aparte porque comparte el area táctil de 44px del resto de las acciones.
+  readonly showAvatar = input(false);
+  readonly avatarUrl = input<string | null>(null);
+  readonly avatarInitial = input('');
   readonly notificationCount = input(0);
 
   readonly backClick = output<void>();
   readonly menuClick = output<void>();
   readonly searchClick = output<void>();
   readonly notificationsClick = output<void>();
+  readonly avatarClick = output<void>();
 
   protected readonly hasBadge = computed(() => this.notificationCount() > 0);
 

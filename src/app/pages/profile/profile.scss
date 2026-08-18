@@ -1,0 +1,68 @@
+:host {
+  display: block;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+}
+
+.profile__identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+// El ancho fijo va sobre el host de app-image, que es el elemento que vive en
+// esta plantilla; el interior del componente no se toca desde acá.
+.profile__avatar {
+  flex-shrink: 0;
+  width: 56px;
+}
+
+// Misma medida que el avatar real para que el bloque no cambie de alto según
+// la cuenta tenga foto o no.
+.profile__initial {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.profile__names {
+  min-width: 0;
+}
+
+.profile__name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.profile__email {
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile__hint {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}

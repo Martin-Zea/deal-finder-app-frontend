@@ -1,0 +1,104 @@
+<app-app-bar
+  brandName="Ahorra"
+  [showNotifications]="true"
+  [showAvatar]="auth.isSignedIn()"
+  [avatarUrl]="auth.user()?.avatarUrl ?? null"
+  [avatarInitial]="avatarInitial()"
+  (avatarClick)="goToProfile()"
+/>
+
+<main class="home">
+  <app-search-bar [value]="query()" (searchSubmit)="query.set($event)" />
+
+  @if (!auth.isSignedIn()) {
+    <!--
+      El banner solo existe sin cuenta. Al desaparecer, la lista sube y entra un
+      cupón más: es el único bloque de la home que aparece y se va.
+    -->
+    <div class="home__banner">
+      <p class="home__banner-title">Guardá tus cupones</p>
+      <p class="home__banner-text">
+        Con tu cuenta los activás en un toque y los volvés a encontrar en «Mis cupones».
+      </p>
+      <app-button (pressed)="signIn()">Continuar con Google</app-button>
+    </div>
+  }
+
+  <app-section heading="Tus tiendas">
+    @if (stores.isLoading()) {
+      <div class="home__stores">
+        @for (row of skeletonRows; track row) {
+          <div class="home__store-skeleton">
+            <app-skeleton width="56px" height="56px" radius="pill" />
+            <app-skeleton width="48px" height="10px" />
+          </div>
+        }
+      </div>
+    } @else if (stores.error()) {
+      <p class="home__inline-error">
+        No pudimos cargar las tiendas.
+        <app-button variant="text" (pressed)="stores.reload()">Reintentar</app-button>
+      </p>
+    } @else if (stores.value(); as list) {
+      <!--
+        Cada tarjeta se envuelve en un botón en vez de hacer clickeable a
+        app-card: la tarjeta sigue sin saber para qué la usan, y acá se decide
+        que seleccionar filtra en vez de navegar.
+      -->
+      <div class="home__stores">
+        @for (store of list; track store.id) {
+          <button
+            type="button"
+            class="home__store"
+            [class.home__store--active]="selectedStore() === store.id"
+            [attr.aria-pressed]="selectedStore() === store.id"
+            (click)="toggleStore(store.id)"
+          >
+            <app-card
+              [storeName]="store.name"
+              [logoUrl]="store.logoUrl"
+              [isLinked]="store.isLinked"
+            />
+          </button>
+        }
+      </div>
+    }
+  </app-section>
+
+  <app-section [heading]="hasFilters() ? 'Resultados' : 'Ofertas para vos'">
+    @if (feed.isLoading()) {
+      @for (row of skeletonRows; track row) {
+        <app-coupon [loading]="true" />
+      }
+    } @else if (feed.error()) {
+      <app-error-state
+        heading="No pudimos cargar las ofertas"
+        message="El servidor no respondió. Podés volver a intentarlo."
+        (retry)="feed.reload()"
+      />
+    } @else if (feed.value(); as list) {
+      @if (list.length === 0) {
+        <app-empty-state
+          heading="Sin resultados"
+          message="No encontramos ofertas con esos filtros. Probá con menos palabras o mirá todas las tiendas."
+        >
+          <svg icon viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="7" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+
+          <app-button variant="outlined" (pressed)="clearFilters()">Ver todas</app-button>
+        </app-empty-state>
+      } @else {
+        @for (coupon of list; track coupon.id) {
+          <app-coupon
+            [title]="coupon.title"
+            [description]="coupon.description"
+            [imageUrl]="coupon.imageUrl"
+            [link]="'/cupon/' + coupon.id"
+          />
+        }
+      }
+    }
+  </app-section>
+</main>
