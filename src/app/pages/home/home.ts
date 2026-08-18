@@ -1,5 +1,5 @@
-import { Component, computed, inject, resource, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, computed, inject, input, resource } from '@angular/core';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AppBar } from '../../shared/components/app-bar/app-bar';
 import { Button } from '../../shared/components/button/button';
 import { Card } from '../../shared/components/card/card';
@@ -19,12 +19,23 @@ import { CouponService } from '../../shared/services/coupon.service';
   styleUrl: './home.scss',
 })
 export class HomePage {
+  // Los filtros viven en la URL y no en signals locales: al abrir un cupón esta
+  // página se destruye, y con el estado adentro volvía siempre en blanco. En la
+  // URL sobreviven al «atrás», al refresh, y se pueden compartir por link.
+  //
+  // Llegan como input() gracias a withComponentInputBinding(), el mismo
+  // mecanismo que le da el :id al detalle. Aceptan undefined porque el router
+  // limpia el input cuando el parámetro desaparece de la URL.
+  readonly q = input<string | undefined>('');
+  readonly tienda = input<string | undefined>(undefined);
+
   private readonly coupons = inject(CouponService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   protected readonly auth = inject(AuthService);
 
-  protected readonly query = signal('');
-  protected readonly selectedStore = signal<string | null>(null);
+  protected readonly query = computed(() => this.q() ?? '');
+  protected readonly selectedStore = computed(() => this.tienda() ?? null);
 
   // Depende de la sesión porque el "vinculada" de cada tienda sale de la
   // cuenta: al entrar o salir, la fila se vuelve a pedir sola.
@@ -52,13 +63,16 @@ export class HomePage {
   // que sabemos cuántos cupones va a devolver el servidor.
   protected readonly skeletonRows = [0, 1, 2];
 
+  protected search(term: string): void {
+    this.setFilters({ q: term || null });
+  }
+
   protected toggleStore(id: string): void {
-    this.selectedStore.update((current) => (current === id ? null : id));
+    this.setFilters({ tienda: this.selectedStore() === id ? null : id });
   }
 
   protected clearFilters(): void {
-    this.selectedStore.set(null);
-    this.query.set('');
+    this.setFilters({ q: null, tienda: null });
   }
 
   protected signIn(): void {
@@ -67,5 +81,20 @@ export class HomePage {
 
   protected goToProfile(): void {
     this.router.navigate(['/perfil']);
+  }
+
+  // null borra el parámetro de la URL en vez de dejarlo vacío, así una home sin
+  // filtros vuelve a ser '/' limpio.
+  //
+  // replaceUrl porque cada cambio de filtro no es un lugar al que volver: sin
+  // esto, «atrás» te hace desandar búsqueda por búsqueda en vez de salir de la
+  // pantalla, que es lo que el usuario espera del botón.
+  private setFilters(changes: Params): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: changes,
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
   }
 }

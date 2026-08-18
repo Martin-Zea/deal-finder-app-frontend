@@ -3,21 +3,22 @@
   width: 100%;
 }
 
-// El padding bajó de 12px a 4px porque ahora el alto lo pone el botón: 44px de
-// área táctil más 4px arriba y abajo. La píldora mide 52px, que es lo que pide
-// un campo de búsqueda en un teléfono.
+// El padding es de 4px porque el alto lo ponen los botones: 44px de área táctil
+// más 4px arriba y abajo. La píldora mide 52px, que es lo que pide un campo de
+// búsqueda en un teléfono.
 .search-bar {
   display: flex;
   align-items: center;
   gap: 4px;
   width: 100%;
-  padding: 4px 16px 4px 4px;
+  padding: 4px;
   border-radius: var(--radius-pill);
   background: var(--color-surface-container);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.search-bar__submit {
+.search-bar__submit,
+.search-bar__clear {
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -46,9 +47,18 @@
   stroke-linejoin: round;
 }
 
+// La ✕ va en tinta secundaria y no en color de marca: limpiar es una acción de
+// deshacer, no la acción principal de la barra.
+.search-bar__icon--clear {
+  width: 18px;
+  height: 18px;
+  stroke: var(--color-on-surface-variant);
+}
+
 .search-bar__input {
   flex: 1;
   min-width: 0;
+  padding: 0 8px 0 0;
   border: none;
   outline: none;
   background: transparent;
@@ -58,5 +68,13 @@
 
   &::placeholder {
     color: var(--color-on-surface-variant);
+  }
+
+  // Se apaga la ✕ nativa de WebKit para no tener dos botones de limpiar, uno
+  // de ellos diminuto y sin etiqueta.
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    display: none;
+    appearance: none;
   }
 }

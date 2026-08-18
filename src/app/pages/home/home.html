@@ -8,7 +8,7 @@
 />
 
 <main class="home">
-  <app-search-bar [value]="query()" (searchSubmit)="query.set($event)" />
+  <app-search-bar [value]="query()" (searchSubmit)="search($event)" />
 
   @if (!auth.isSignedIn()) {
     <!--

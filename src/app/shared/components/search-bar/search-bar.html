@@ -31,4 +31,19 @@
     (input)="onInput($event)"
     aria-label="Buscar oferta, marca o tienda"
   />
+
+  <!--
+    La ✕ es nuestra y no la nativa de type="search": Firefox no dibuja ninguna,
+    iOS Safari tampoco, y la de Chrome mide unos 12px y no se puede agrandar ni
+    pintar. Aparece solo cuando hay texto, porque un botón que no hace nada es
+    ruido.
+  -->
+  @if (query()) {
+    <button type="button" class="search-bar__clear" aria-label="Limpiar búsqueda" (click)="clear()">
+      <svg class="search-bar__icon search-bar__icon--clear" viewBox="0 0 24 24" aria-hidden="true">
+        <line x1="6" y1="6" x2="18" y2="18" />
+        <line x1="18" y1="6" x2="6" y2="18" />
+      </svg>
+    </button>
+  }
 </form>

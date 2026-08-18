@@ -30,6 +30,16 @@ export class SearchBar {
     if (text === '') this.searchSubmit.emit('');
   }
 
+  protected clear(): void {
+    this.query.set('');
+    this.searchSubmit.emit('');
+
+    // El foco vuelve al campo en vez de quedar en un botón que ya desapareció:
+    // quien limpia la búsqueda casi siempre quiere escribir otra, y en el
+    // celular esto mantiene el teclado abierto.
+    this.field()?.nativeElement.focus();
+  }
+
   protected onSubmit(event: Event): void {
     event.preventDefault();
 
