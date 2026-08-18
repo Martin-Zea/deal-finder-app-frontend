@@ -1,79 +1,198 @@
 /* You can add global styles to this file, and also import other style files */
-@use 'sass:meta';
 @use 'sass:map';
 
-// Ahorra — Material Design 3 palettes derived from the Organic design system.
-// primary   = terracotta  (#c67139 base, tone 40 = #8c491a)
-// secondary = sage        (#7a8a5e base, tone 40 = #56633f)
-// tertiary  = berry       (cashback / rewards accent)
-// neutrals are warm (cream ground #f5ead8, ink #201e1d)
+// ---------------------------------------------------------------------------
+// Temas de marca
+// ---------------------------------------------------------------------------
+// Cada tema trae su propia escala primaria Y su propia escala neutral. El
+// neutral es parte de la identidad, no un gris compartido: los cremas cálidos
+// que le quedan bien a la terracota ensucian al amarillo, que pide blanco puro.
+//
+// Nombres: tono M3 × 10 -> el tono 40 se publica como --color-primary-400.
+//
+// `roles` declara qué tono hace de marca en cada tema, porque no es el mismo en
+// todos. En amarillo la marca es un tono claro (900) con tinta negra encima; en
+// magenta, terracota y verde es el tono 40 con blanco encima. Es la diferencia
+// entre un color que solo sirve de fondo y uno que sirve de botón.
+//
+// Los mapas van con prettier-ignore a propósito: en forma de tabla se puede
+// comparar una escala contra otra de un vistazo, un hex por línea no.
 
-$primary-palette: (
-  0: #000000, 10: #2f1600, 20: #4d2600, 25: #5b2f06, 30: #6a3a10, 35: #79441a,
-  40: #8c491a, 50: #ab6127, 60: #cb7d3e, 70: #eb9a57, 80: #ffb787, 90: #ffe1d0,
-  95: #fff2eb, 98: #fff8f4, 99: #fffbfa, 100: #ffffff,
+// prettier-ignore
+$themes: (
+  // Krazy — amarillo / negro. La semiótica de "oferta" en retail. El amarillo
+  // solo vive de fondo con tinta negra; para trazos e iconos se usa el tono 40,
+  // que es un ámbar oscuro legible sobre blanco.
+  krazy: (
+    primary: (
+      0: #000000, 10: #211b00, 20: #383000, 25: #443b00, 30: #514600, 35: #5e5200,
+      40: #6c5e00, 50: #897800, 60: #a79300, 70: #c6af00, 80: #e5cb00, 90: #ffd500,
+      95: #ffeeaa, 98: #fff9e0, 99: #fffcf0, 100: #ffffff,
+    ),
+    secondary: (
+      0: #000000, 10: #001e2e, 20: #00344d, 25: #003f5d, 30: #004b6d, 35: #00577e,
+      40: #00648f, 50: #007eb4, 60: #2f99d3, 70: #57b4f0, 80: #8bcdff, 90: #c6e7ff,
+      95: #e3f3ff, 98: #f5faff, 99: #fbfdff, 100: #ffffff,
+    ),
+    tertiary: (
+      0: #000000, 10: #3d0026, 20: #61003f, 25: #74004c, 30: #880059, 35: #9c0f67,
+      40: #b02a75, 50: #d1498f, 60: #f166aa, 70: #ff8ec2, 80: #ffb0d3, 90: #ffd8e8,
+      95: #ffecf3, 98: #fff8fa, 99: #fffbff, 100: #ffffff,
+    ),
+    neutral: (
+      0: #000000, 10: #1a1a1a, 20: #2f2f2e, 25: #3a3a39, 30: #454544, 35: #515150,
+      40: #5d5d5c, 50: #767675, 60: #90908f, 70: #ababa9, 80: #c7c6c5, 90: #e3e2e1,
+      95: #f2f1f0, 98: #fafafa, 99: #fdfdfd, 100: #ffffff,
+    ),
+    roles: (brand-surface: 'primary-900', on-brand-surface: 'neutral-100'),
+  ),
 
-  secondary: (
-    0: #000000, 10: #16210a, 20: #2a3719, 25: #354223, 30: #404e2d, 35: #4b5a37,
-    40: #56633f, 50: #6f7d56, 60: #88976d, 70: #a3b285, 80: #bfcfa0, 90: #dbecbb,
-    95: #e9fac8, 98: #f4ffdd, 99: #fafff0, 100: #ffffff,
+  // Punch — magenta. Territorio Rakuten/RetailMeNot. Es el único tema donde el
+  // primario funciona como primary M3 convencional (blanco sobre el tono 40).
+  punch: (
+    primary: (
+      0: #000000, 10: #3f0021, 20: #650038, 25: #790044, 30: #8e0050, 35: #a3105d,
+      40: #b8246a, 50: #d94484, 60: #f9639f, 70: #ff8ab8, 80: #ffb0cd, 90: #ffd9e4,
+      95: #ffecf1, 98: #fff8f9, 99: #fffbff, 100: #ffffff,
+    ),
+    secondary: (
+      0: #000000, 10: #21005e, 20: #380091, 25: #4300a9, 30: #4f16b8, 35: #5c27c5,
+      40: #6837d2, 50: #8256f0, 60: #9d78ff, 70: #b79bff, 80: #d0bcff, 90: #e9ddff,
+      95: #f6eeff, 98: #fdf7ff, 99: #fffbff, 100: #ffffff,
+    ),
+    tertiary: (
+      0: #000000, 10: #2a1700, 20: #472a00, 25: #563300, 30: #653d00, 35: #744700,
+      40: #845200, 50: #a56900, 60: #c78100, 70: #ea9a00, 80: #ffb955, 90: #ffdcbb,
+      95: #ffeee0, 98: #fff8f4, 99: #fffbff, 100: #ffffff,
+    ),
+    neutral: (
+      0: #000000, 10: #1d1a1b, 20: #322f30, 25: #3d3a3b, 30: #494546, 35: #555152,
+      40: #615c5e, 50: #7a7576, 60: #948f90, 70: #afa9ab, 80: #cbc4c6, 90: #e8e0e2,
+      95: #f6eef0, 98: #fef8f9, 99: #fffbff, 100: #ffffff,
+    ),
+    roles: (brand-surface: 'primary-400', on-brand-surface: 'primary-1000'),
   ),
-  neutral: (
-    0: #000000, 10: #201e1d, 20: #35322f, 25: #403d39, 30: #4c4844, 35: #58534f,
-    40: #645f5a, 50: #7e7873, 60: #98928c, 70: #b3aca6, 80: #cfc8c1, 90: #ebe3dc,
-    95: #f5ead8, 98: #fdf6ea, 99: #fffbf5, 100: #ffffff,
-    4: #0d0c0b, 6: #131211, 12: #262422, 17: #302d2b, 22: #3a3734, 24: #3f3c38,
-    87: #e1d9d2, 92: #f0e8e0, 94: #f4ece3, 96: #f8f0e7,
+
+  // Organic — terracota / sage / crema. El tema original: cálido y editorial,
+  // comunica "ahorro consciente" mejor que "DEAL 72% OFF". Sirve de control.
+  organic: (
+    primary: (
+      0: #000000, 10: #2f1600, 20: #4d2600, 25: #5b2f06, 30: #6a3a10, 35: #79441a,
+      40: #8c491a, 50: #ab6127, 60: #cb7d3e, 70: #eb9a57, 80: #ffb787, 90: #ffe1d0,
+      95: #fff2eb, 98: #fff8f4, 99: #fffbfa, 100: #ffffff,
+    ),
+    secondary: (
+      0: #000000, 10: #16210a, 20: #2a3719, 25: #354223, 30: #404e2d, 35: #4b5a37,
+      40: #56633f, 50: #6f7d56, 60: #88976d, 70: #a3b285, 80: #bfcfa0, 90: #dbecbb,
+      95: #e9fac8, 98: #f4ffdd, 99: #fafff0, 100: #ffffff,
+    ),
+    tertiary: (
+      0: #000000, 10: #3b0a17, 20: #571d29, 25: #652734, 30: #74313f, 35: #833c4a,
+      40: #924756, 50: #b15f6e, 60: #d17887, 70: #f292a1, 80: #ffb1bc, 90: #ffd9df,
+      95: #ffecef, 98: #fff8f8, 99: #fffbff, 100: #ffffff,
+    ),
+    neutral: (
+      0: #000000, 10: #201e1d, 20: #35322f, 25: #403d39, 30: #4c4844, 35: #58534f,
+      40: #645f5a, 50: #7e7873, 60: #98928c, 70: #b3aca6, 80: #cfc8c1, 90: #ebe3dc,
+      95: #f5ead8, 98: #fdf6ea, 99: #fffbf5, 100: #ffffff,
+    ),
+    roles: (brand-surface: 'primary-400', on-brand-surface: 'primary-1000'),
   ),
-  neutral-variant: (
-    0: #000000, 10: #1e2018, 20: #33362b, 25: #3e4135, 30: #494d40, 35: #55594b,
-    40: #616556, 50: #7a7e6e, 60: #949887, 70: #afb3a1, 80: #cbcfbb, 90: #e7ebd6,
-    95: #f5f9e4, 98: #fdfff0, 99: #ffffff, 100: #ffffff,
-  ),
-  error: (
-    0: #000000, 10: #410002, 20: #690005, 25: #7e0007, 30: #93000a, 35: #a80710,
-    40: #ba1a1a, 50: #de3730, 60: #ff5449, 70: #ff8a80, 80: #ffb4ab, 90: #ffdad6,
-    95: #ffedea, 98: #fff8f7, 99: #fffbff, 100: #ffffff,
+
+  // Money — verde azulado. La ruta Ibotta/Groupon: más calma, el color habla de
+  // dinero en vez de gritar oferta.
+  money: (
+    primary: (
+      0: #000000, 10: #002019, 20: #00382b, 25: #004334, 30: #004f3e, 35: #005c48,
+      40: #00674f, 50: #008465, 60: #00a17c, 70: #1fbf94, 80: #48dcae, 90: #a8f5d5,
+      95: #d3ffe9, 98: #edfff4, 99: #f5fff8, 100: #ffffff,
+    ),
+    secondary: (
+      0: #000000, 10: #0b1d2a, 20: #203440, 25: #2b3f4b, 30: #364a57, 35: #425663,
+      40: #4e626f, 50: #667b88, 60: #8095a3, 70: #9ab0be, 80: #b6ccda, 90: #d2e8f7,
+      95: #e7f3ff, 98: #f6faff, 99: #fbfdff, 100: #ffffff,
+    ),
+    tertiary: (
+      0: #000000, 10: #390c00, 20: #5c1a00, 25: #6e2200, 30: #802a00, 35: #933300,
+      40: #a63d00, 50: #cc5400, 60: #f16c11, 70: #ff8f4d, 80: #ffb590, 90: #ffdbc8,
+      95: #ffede4, 98: #fff8f5, 99: #fffbff, 100: #ffffff,
+    ),
+    neutral: (
+      0: #000000, 10: #191c1b, 20: #2e3130, 25: #393c3b, 30: #444746, 35: #505352,
+      40: #5c5f5e, 50: #757877, 60: #8f9291, 70: #aaadab, 80: #c5c8c7, 90: #e2e5e3,
+      95: #f0f3f1, 98: #f9fcfa, 99: #fcfffd, 100: #ffffff,
+    ),
+    roles: (brand-surface: 'primary-400', on-brand-surface: 'primary-1000'),
   ),
 );
 
-$tertiary-palette: (
-  0: #000000, 10: #3b0a17, 20: #571d29, 25: #652734, 30: #74313f, 35: #833c4a,
-  40: #924756, 50: #b15f6e, 60: #d17887, 70: #f292a1, 80: #ffb1bc, 90: #ffd9df,
-  95: #ffecef, 98: #fff8f8, 99: #fffbff, 100: #ffffff,
+// Error no es color de marca: el rojo de un fallo no cambia porque cambie la
+// identidad. Se emite una sola vez y se hereda en todos los temas.
+// prettier-ignore
+$error-palette: (
+  0: #000000, 10: #410002, 20: #690005, 25: #7e0007, 30: #93000a, 35: #a80710,
+  40: #ba1a1a, 50: #de3730, 60: #ff5449, 70: #ff8a80, 80: #ffb4ab, 90: #ffdad6,
+  95: #ffedea, 98: #fff8f7, 99: #fffbff, 100: #ffffff,
 );
 
-// Design tokens — every tone in every palette exposed as a CSS custom
-// property, so components style themselves with var(--color-...) instead of
-// duplicating hex values. Naming mirrors the M3 tone (tone 60 -> "-600"),
-// e.g. --color-neutral-600, --color-primary-400.
-:root {
-  @each $tone, $value in $primary-palette {
-    @if meta.type-of($value) == 'color' {
-      --color-primary-#{$tone * 10}: #{$value};
-    }
+@mixin emit-palette($name, $tones) {
+  @each $tone, $value in $tones {
+    --color-#{$name}-#{$tone * 10}: #{$value};
   }
-  @each $tone, $value in map.get($primary-palette, secondary) {
-    --color-secondary-#{$tone * 10}: #{$value};
-  }
-  @each $tone, $value in map.get($primary-palette, neutral) {
-    --color-neutral-#{$tone * 10}: #{$value};
-  }
-  @each $tone, $value in map.get($primary-palette, neutral-variant) {
-    --color-neutral-variant-#{$tone * 10}: #{$value};
-  }
-  @each $tone, $value in map.get($primary-palette, error) {
-    --color-error-#{$tone * 10}: #{$value};
-  }
-  @each $tone, $value in $tertiary-palette {
-    --color-tertiary-#{$tone * 10}: #{$value};
-  }
+}
 
-  // Semantic roles used across components (M3 light scheme).
-  --color-primary-container: var(--color-primary-900);
-  --color-on-primary-container: var(--color-primary-100);
+// Emite un tema completo: los tonos de sus cuatro paletas más los roles
+// semánticos. Los componentes solo consumen roles y las paletas quedan como
+// materia prima, para que cambiar de tema no obligue a tocar ningún .scss.
+@mixin emit-theme($theme) {
+  @include emit-palette('primary', map.get($theme, primary));
+  @include emit-palette('secondary', map.get($theme, secondary));
+  @include emit-palette('tertiary', map.get($theme, tertiary));
+  @include emit-palette('neutral', map.get($theme, neutral));
+
+  $roles: map.get($theme, roles);
+
+  // Marca: el color grande de chrome y la tinta que va encima. Es el único rol
+  // que cada tema resuelve distinto (ver el comentario de $themes).
+  --color-brand-surface: var(--color-#{map.get($roles, brand-surface)});
+  --color-on-brand-surface: var(--color-#{map.get($roles, on-brand-surface)});
+
+  // Superficies y tinta, todas sobre la escala neutral: la marca no invade el
+  // contenido. Ojo con la consecuencia —como las cuatro escalas neutrales son
+  // casi el mismo blanco y el mismo negro, cambiar de tema casi no se ve fuera
+  // de la banda de marca y de los acentos. Es a proposito: el color lo ponen
+  // los logos de tienda, que no controlamos.
   --color-surface: var(--color-neutral-990);
   --color-on-surface: var(--color-neutral-100);
+  --color-surface-container: var(--color-neutral-1000);
+
+  // El texto secundario se queda neutro: en una lista de ofertas la descripcion
+  // tiene que estar callada, no competir con el precio.
+  --color-on-surface-variant: var(--color-neutral-400);
+
+  // Bordes y rellenos decorativos (rayas de placeholder, aros de muestras).
+  --color-outline: var(--color-neutral-800);
+  --color-outline-variant: var(--color-neutral-900);
+
+  // Acento de marca legible sobre superficie clara: trazos, iconos, énfasis.
+  --color-primary: var(--color-primary-400);
+  --color-on-primary: var(--color-primary-1000);
+  --color-primary-container: var(--color-primary-900);
+  --color-on-primary-container: var(--color-primary-100);
+}
+
+:root {
+  // Krazy es el tema por defecto del MVP de cupones.
+  @include emit-theme(map.get($themes, krazy));
+  @include emit-palette('error', $error-palette);
+
+  // Roles semánticos, no de marca: el verde de "ahorrás $X" y el rojo de "vence
+  // hoy" significan lo mismo en los cuatro temas. Si cambiaran con la identidad,
+  // el usuario perdería la señal.
+  --color-savings: #0f8a5f;
+  --color-on-savings: #ffffff;
+  --color-urgent: #c62828;
+  --color-on-urgent: #ffffff;
 
   // Typography — Nunito's rounded terminals match the pill/circle shapes
   // used across search bar and cards. One family for headings and body
@@ -88,6 +207,25 @@ $tertiary-palette: (
   --radius-pill: 999px;
 }
 
+// Cada tema también se puede aplicar scopeado a cualquier contenedor: como las
+// custom properties se heredan, un [data-theme] sobre un div re-tematiza todo su
+// subárbol sin estado global. Es lo que usa la página de componentes para
+// mostrar varias marcas a la vez.
+@each $name, $theme in $themes {
+  [data-theme='#{$name}'] {
+    @include emit-theme($theme);
+  }
+}
+
+// Sin esto, cualquier componente con width: 100% mas padding se pasa del
+// contenedor: la search bar estiraba el documento 36px y dejaba asomar el fondo
+// del <body> por el borde derecho.
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html,
 body {
   margin: 0;
@@ -96,7 +234,12 @@ body {
   background: var(--color-surface);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-family-base);
   font-weight: 800;
   letter-spacing: -0.01em;

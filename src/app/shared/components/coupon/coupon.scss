@@ -1,0 +1,83 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.coupon {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-container);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.coupon__thumb {
+  flex-shrink: 0;
+  width: 56px;
+  aspect-ratio: 1 / 1;
+}
+
+.coupon__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
+  object-fit: contain;
+  background: var(--color-surface);
+}
+
+.coupon__image--placeholder {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-outline-variant) 0 10px,
+    var(--color-outline) 10px 20px
+  );
+}
+
+.coupon__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.coupon__title {
+  color: var(--color-on-surface);
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+// La descripción se corta a dos líneas para que todas las tarjetas midan
+// igual dentro de una lista, sin importar el largo del texto.
+.coupon__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  color: var(--color-on-surface-variant);
+  font-size: 0.95rem;
+  line-height: 1.3;
+}

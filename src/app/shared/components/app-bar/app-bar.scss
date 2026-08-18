@@ -1,0 +1,111 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+// El padding-top con safe-area es lo que evita que la barra quede debajo del
+// notch cuando la pagina la fija arriba. Fijarla (position: sticky) es decision
+// del padre, como el ancho: aca solo se reserva el espacio del sistema.
+.app-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 56px;
+  padding: 0 8px;
+  padding-top: env(safe-area-inset-top, 0);
+  border-bottom: 1px solid var(--color-outline-variant);
+  background: var(--color-surface-container);
+}
+
+.app-bar__side {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.app-bar__side--end {
+  justify-content: flex-end;
+}
+
+.app-bar__brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-bar__logo {
+  display: block;
+  height: 32px;
+  max-width: 140px;
+  object-fit: contain;
+}
+
+// Sin logo, la marca se dibuja con los tokens: es el mismo par
+// brand-surface / on-brand-surface que resuelve el amarillo con tinta negra.
+.app-bar__mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-sm);
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+// 44px es el minimo tactil comodo; el icono adentro es mas chico.
+.app-bar__action {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-on-surface);
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.app-bar__icon {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+// Anclado a la esquina superior derecha del icono, no del boton: asi "99+" se
+// desborda hacia afuera en vez de taparlo. El aro del color de la barra es lo
+// que hace que el solape se lea intencional.
+.app-bar__badge {
+  position: absolute;
+  top: 10px;
+  left: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border: 2px solid var(--color-surface-container);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+  font-size: 0.6rem;
+  font-weight: 800;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}

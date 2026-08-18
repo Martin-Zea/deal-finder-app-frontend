@@ -1,5 +1,60 @@
-<main class="components-page">
-  <h1>Componentes</h1>
+<!--
+  El tema va scopeado a este <main>, no a <html>: como las custom properties se
+  heredan, el atributo re-tematiza todo el subárbol sin estado global. Cada
+  muestra del selector lleva su propio data-theme, así se pinta sola con el
+  color de marca del tema que representa.
+-->
+<main class="components-page" [attr.data-theme]="theme()">
+  <header class="components-page__brand">
+    <h1 class="components-page__title">Componentes</h1>
+
+    <div class="theme-switch" role="group" aria-label="Tema de color">
+      @for (option of themes; track option.id) {
+        <button
+          type="button"
+          class="theme-switch__option"
+          [class.theme-switch__option--active]="theme() === option.id"
+          [attr.aria-pressed]="theme() === option.id"
+          [title]="option.hint"
+          (click)="setTheme(option.id)"
+        >
+          <span class="theme-switch__swatch" [attr.data-theme]="option.id"></span>
+          {{ option.label }}
+        </button>
+      }
+    </div>
+  </header>
+
+  <!-- <section class="components-page__section">
+    <h2>Tokens del tema</h2>
+    <ul class="palette">
+      @for (role of roleSwatches; track role) {
+        <li class="palette__item">
+          <span class="palette__swatch" [style.background]="'var(--color-' + role + ')'"></span>
+          <code class="palette__name">--color-{{ role }}</code>
+        </li>
+      }
+    </ul>
+  </section> -->
+
+  <section class="components-page__section">
+    <h2>App Bar</h2>
+    <div class="components-page__stack">
+      <app-app-bar
+        brandName="Ahorra"
+        [showMenu]="true"
+        [showSearch]="true"
+        [showNotifications]="true"
+        [notificationCount]="1"
+        (menuClick)="onBarAction('menú')"
+        (searchClick)="onBarAction('búsqueda')"
+        (notificationsClick)="onBarAction('notificaciones')"
+      />
+    </div>
+    @if (lastBarAction(); as action) {
+      <p>Última acción de la barra: {{ action }}</p>
+    }
+  </section>
 
   <section class="components-page__section">
     <h2>Search Bar</h2>
@@ -12,12 +67,66 @@
   <section class="components-page__section">
     <h2>Card</h2>
     <div class="components-page__grid">
-      <app-card storeName="Amazon" logoUrl="https://cdn.vectorstock.com/i/250p/39/87/amazon-logo-smile-icon-vector-34243987.avif" />
-      <app-card storeName="Target" [isLinked]="false" logoUrl="https://www.logo.wine/a/logo/Target_Corporation/Target_Corporation-Logo.wine.svg"/>
+      <app-card
+        storeName="Amazon"
+        logoUrl="https://cdn.vectorstock.com/i/250p/39/87/amazon-logo-smile-icon-vector-34243987.avif"
+      />
+      <app-card
+        storeName="Target"
+        [isLinked]="false"
+        logoUrl="https://www.logo.wine/a/logo/Target_Corporation/Target_Corporation-Logo.wine.svg"
+      />
       <app-card storeName="Walmart" />
       <app-card storeName="Costco" />
       <app-card storeName="Best Buy" />
       <app-card storeName="Kroger" />
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Coupon</h2>
+    <div class="components-page__list">
+      <app-coupon
+        title="Deal alert"
+        description="Dove Bar Soap Packs, as Low as $3 Each"
+        link="/components"
+        imageUrl="https://upload.wikimedia.org/wikipedia/commons/8/8a/Kroger_logo_%282019%29.svg"
+      />
+      <app-coupon
+        title="Cupón digital"
+        description="20% de descuento en toda la sección de limpieza durante el fin de semana.. texto demasiado largo para ver como resuelve"
+        link="/components"
+      />
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Coupon clip</h2>
+    <div class="components-page__list">
+      <!-- La imagen es relleno: acá solo importa que la rama con <img> recorte igual que el placeholder. -->
+      <app-coupon-clip
+        productName="Pampers Diapers"
+        amount="$2.00"
+        [quantity]="2"
+        expiresOn="12 de abril"
+        imageUrl="https://cdn.vectorstock.com/i/250p/39/87/amazon-logo-smile-icon-vector-34243987.avif"
+        [active]="clipped()['pampers']"
+        (activeChange)="setClipped('pampers', $event)"
+      />
+      <app-coupon-clip
+        productName="All Liquid Laundry Detergent with Advanced OXI Stain Removers"
+        amount="$7.00"
+        expiresOn="12 de abril"
+        [active]="clipped()['detergent']"
+        (activeChange)="setClipped('detergent', $event)"
+      />
+      <app-coupon-clip
+        productName="Dove Body Wash 18.5 oz"
+        amount="$3.00"
+        expiresOn="12 de abril"
+        [active]="clipped()['dove']"
+        (activeChange)="setClipped('dove', $event)"
+      />
     </div>
   </section>
 </main>

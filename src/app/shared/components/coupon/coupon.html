@@ -1,0 +1,14 @@
+<a class="coupon" [routerLink]="link()">
+  <div class="coupon__thumb">
+    @if (imageUrl(); as src) {
+      <img class="coupon__image" [src]="src" [alt]="title()" />
+    } @else {
+      <div class="coupon__image coupon__image--placeholder"></div>
+    }
+  </div>
+
+  <div class="coupon__body">
+    <span class="coupon__title">{{ title() }}</span>
+    <span class="coupon__description">{{ description() }}</span>
+  </div>
+</a>
