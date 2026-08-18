@@ -8,7 +8,7 @@ const STORAGE_KEY = 'ahorra.session';
 const MOCK_USER: User = {
   id: 'u1',
   name: 'Martín Zea',
-  email: 'milyzc@gmail.com',
+  email: 'email@gmail.com',
   avatarUrl: null,
 };
 
