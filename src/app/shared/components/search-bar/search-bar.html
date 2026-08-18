@@ -1,11 +1,31 @@
 <form class="search-bar" role="search" (submit)="onSubmit($event)">
-  <svg class="search-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
-    <circle cx="11" cy="11" r="7" />
-    <line x1="21" y1="21" x2="16.65" y2="16.65" />
-  </svg>
+  <!--
+    La lupa es un botón de verdad y no un adorno. En el celular la vía principal
+    sigue siendo la tecla «Buscar» del teclado, pero un form sin botón de submit
+    depende del envío implícito, que solo funciona mientras haya un único campo:
+    el día que aparezca un segundo filtro, la tecla dejaría de buscar.
+  -->
+  <button type="submit" class="search-bar__submit" aria-label="Buscar">
+    <svg class="search-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  </button>
+
+  <!--
+    enterkeyhint le dice al teclado del teléfono que su tecla de acción dice
+    «Buscar»; sin eso iOS pone «Ir» y Android una flecha. autocapitalize y
+    autocorrect apagados porque una marca no es una oración y no queremos que
+    «dove» se convierta en otra palabra.
+  -->
   <input
+    #field
     class="search-bar__input"
     type="search"
+    enterkeyhint="search"
+    autocapitalize="off"
+    autocorrect="off"
+    spellcheck="false"
     [placeholder]="placeholder()"
     [value]="query()"
     (input)="onInput($event)"

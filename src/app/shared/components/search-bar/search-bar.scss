@@ -3,19 +3,40 @@
   width: 100%;
 }
 
+// El padding bajó de 12px a 4px porque ahora el alto lo pone el botón: 44px de
+// área táctil más 4px arriba y abajo. La píldora mide 52px, que es lo que pide
+// un campo de búsqueda en un teléfono.
 .search-bar {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 4px;
   width: 100%;
-  padding: 12px 18px;
+  padding: 4px 16px 4px 4px;
   border-radius: var(--radius-pill);
   background: var(--color-surface-container);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-.search-bar__icon {
+.search-bar__submit {
+  display: flex;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+}
+
+.search-bar__icon {
   width: 20px;
   height: 20px;
   fill: none;

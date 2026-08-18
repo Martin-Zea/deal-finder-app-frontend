@@ -1,4 +1,4 @@
-import { Component, input, linkedSignal, output } from '@angular/core';
+import { Component, ElementRef, input, linkedSignal, output, viewChild } from '@angular/core';
 
 @Component({
   selector: 'app-search-bar',
@@ -18,16 +18,27 @@ export class SearchBar {
 
   readonly searchSubmit = output<string>();
 
+  private readonly field = viewChild<ElementRef<HTMLInputElement>>('field');
+
   protected onInput(event: Event): void {
-    this.query.set((event.target as HTMLInputElement).value);
+    const text = (event.target as HTMLInputElement).value;
+    this.query.set(text);
+
+    // Vaciar el campo —con la ✕ nativa de type="search" o borrando a mano—
+    // devuelve la lista completa sin pedir otro envío. Sin esto el usuario
+    // quedaba filtrado con el campo en blanco y sin nada que tocar para salir.
+    if (text === '') this.searchSubmit.emit('');
   }
 
   protected onSubmit(event: Event): void {
     event.preventDefault();
 
-    const value = this.query().trim();
-    if (!value) return;
+    // Emite siempre, incluso vacío: buscar "" es una búsqueda válida —significa
+    // "mostrame todo"— y era la única forma de volver atrás.
+    this.searchSubmit.emit(this.query().trim());
 
-    this.searchSubmit.emit(value);
+    // En el celular el teclado tapa media pantalla. Sin esto, el usuario busca
+    // y no ve ni un resultado hasta que toca fuera del campo.
+    this.field()?.nativeElement.blur();
   }
 }

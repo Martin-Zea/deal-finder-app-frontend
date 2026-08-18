@@ -76,6 +76,10 @@
   <section class="components-page__section">
     <h2>Search Bar</h2>
     <app-search-bar placeholder="Buscar productos..." (searchSubmit)="onSearch($event)" />
+    <p class="components-page__sample-label">
+      La lupa es un botón de submit, y en el teléfono la tecla del teclado dice «Buscar». Vaciar el
+      campo emite una búsqueda vacía, que es cómo se vuelve a la lista completa.
+    </p>
     @if (lastSearch(); as term) {
       <p>Último término buscado (simula la llamada a backend): "{{ term }}"</p>
     }
