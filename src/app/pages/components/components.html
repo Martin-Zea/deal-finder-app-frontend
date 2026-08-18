@@ -50,6 +50,23 @@
         (searchClick)="onBarAction('búsqueda')"
         (notificationsClick)="onBarAction('notificaciones')"
       />
+
+      <!-- La variante de detalle: el título de pantalla ocupa el lugar de la
+           marca, y la flecha reemplaza a la hamburguesa. -->
+      <app-app-bar
+        [showBack]="true"
+        heading="Dove Bar Soap Packs"
+        (backClick)="onBarAction('volver')"
+      />
+
+      <app-app-bar
+        [showBack]="true"
+        heading="Un título de cupón tan largo que no entra en una sola línea de la barra"
+        [showNotifications]="true"
+        [notificationCount]="120"
+        (backClick)="onBarAction('volver')"
+        (notificationsClick)="onBarAction('notificaciones')"
+      />
     </div>
     @if (lastBarAction(); as action) {
       <p>Última acción de la barra: {{ action }}</p>
@@ -62,6 +79,155 @@
     @if (lastSearch(); as term) {
       <p>Último término buscado (simula la llamada a backend): "{{ term }}"</p>
     }
+  </section>
+
+  <section class="components-page__section">
+    <h2>Skeleton</h2>
+    <div class="components-page__list">
+      <div class="components-page__sample">
+        <p class="components-page__sample-label">Bloque — el hero del detalle</p>
+        <app-skeleton height="180px" radius="md" />
+      </div>
+
+      <div class="components-page__sample">
+        <p class="components-page__sample-label">Texto — 3 líneas, la última corta</p>
+        <app-skeleton [lines]="3" />
+      </div>
+
+      <div class="components-page__sample">
+        <p class="components-page__sample-label">Círculo — el logo de una tienda</p>
+        <app-skeleton width="48px" height="48px" radius="pill" />
+      </div>
+
+      <!-- Los primitivos se componen en la pantalla que los usa; no hay un
+           app-detalle-skeleton en shared/. -->
+      <div class="components-page__sample">
+        <p class="components-page__sample-label">Compuesto — la pantalla de detalle</p>
+        <div class="components-page__sheet">
+          <app-skeleton height="180px" radius="md" />
+          <app-skeleton width="60%" height="1.5rem" />
+          <app-skeleton [lines]="2" />
+          <app-skeleton height="48px" radius="lg" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Button</h2>
+    <div class="components-page__row">
+      <app-button (pressed)="runButtonDemo()">Activar cupón</app-button>
+      <app-button variant="outlined">Ver términos</app-button>
+      <app-button variant="text">Cancelar</app-button>
+      <app-button [disabled]="true">Sin stock</app-button>
+      <app-button [loading]="buttonBusy()" (pressed)="runButtonDemo()">
+        Tocá para ver el spinner
+      </app-button>
+    </div>
+
+    <div class="components-page__sample">
+      <p class="components-page__sample-label">
+        Ancho completo y tamaño lg — el CTA de la pantalla de detalle
+      </p>
+      <div class="components-page__list">
+        <app-button size="lg" [fullWidth]="true">Activar cupón</app-button>
+      </div>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Badge</h2>
+    <div class="components-page__row">
+      <app-badge tone="savings">Ahorrás $7.00</app-badge>
+      <app-badge tone="urgent">Vence en 3 días</app-badge>
+      <app-badge tone="brand">Nuevo</app-badge>
+      <app-badge>Limpieza</app-badge>
+      <app-badge size="sm">2×1</app-badge>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Image</h2>
+    <div class="components-page__row components-page__row--top">
+      <div class="components-page__sample components-page__sample--narrow">
+        <p class="components-page__sample-label">Con imagen, 16 / 9</p>
+        <app-image
+          ratio="16 / 9"
+          radius="lg"
+          fit="contain"
+          alt="Kroger"
+          src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Kroger_logo_%282019%29.svg"
+        />
+      </div>
+
+      <div class="components-page__sample components-page__sample--narrow">
+        <p class="components-page__sample-label">Sin imagen — el placeholder de rayas</p>
+        <app-image ratio="16 / 9" radius="lg" />
+      </div>
+
+      <!-- El src roto es el caso que importa: los logos de tienda no los
+           servimos nosotros y fallan seguido. -->
+      <div class="components-page__sample components-page__sample--narrow">
+        <p class="components-page__sample-label">Src roto — cae al placeholder</p>
+        <app-image ratio="16 / 9" radius="lg" src="https://ejemplo.invalid/no-existe.png" />
+      </div>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Store pill</h2>
+    <div class="components-page__list">
+      <app-store-pill
+        storeName="Kroger"
+        link="/components"
+        logoUrl="https://upload.wikimedia.org/wikipedia/commons/8/8a/Kroger_logo_%282019%29.svg"
+      />
+      <app-store-pill storeName="Walmart" />
+      <app-store-pill
+        storeName="Un nombre de tienda demasiado largo para una línea"
+        link="/components"
+      />
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Section</h2>
+    <div class="components-page__list">
+      <app-section heading="Términos">
+        <ul>
+          <li>Válido solo con tarjeta registrada en la app.</li>
+          <li>Un cupón por cliente y por transacción.</li>
+        </ul>
+      </app-section>
+
+      <app-section heading="Productos incluidos" [level]="3">
+        <p>Dove Beauty Bar 4 unidades, Dove Men+Care Bar 4 unidades.</p>
+      </app-section>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Empty state</h2>
+    <div class="components-page__list">
+      <app-empty-state
+        heading="Sin resultados"
+        message="No encontramos ofertas para “detergente sin perfume”. Probá con menos palabras."
+      >
+        <svg icon viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+
+        <app-button variant="outlined">Limpiar búsqueda</app-button>
+      </app-empty-state>
+    </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Error state</h2>
+    <div class="components-page__list">
+      <app-error-state (retry)="onBarAction('reintentar')" />
+    </div>
   </section>
 
   <section class="components-page__section">
@@ -85,19 +251,47 @@
 
   <section class="components-page__section">
     <h2>Coupon</h2>
+
+    <!-- Alternar es la prueba: si al volver del skeleton la lista se mueve, la
+         silueta no está midiendo lo mismo que el contenido. -->
+    <button type="button" class="components-page__toggle" (click)="toggleCouponLoading()">
+      {{ couponLoading() ? 'Mostrar contenido' : 'Simular carga' }}
+    </button>
+
+    <!-- Los links van a la pantalla real: tocar un cupón acá abre su detalle. -->
     <div class="components-page__list">
       <app-coupon
+        [loading]="couponLoading()"
         title="Deal alert"
         description="Dove Bar Soap Packs, as Low as $3 Each"
-        link="/components"
+        link="/cupon/1"
         imageUrl="https://upload.wikimedia.org/wikipedia/commons/8/8a/Kroger_logo_%282019%29.svg"
       />
       <app-coupon
+        [loading]="couponLoading()"
         title="Cupón digital"
         description="20% de descuento en toda la sección de limpieza durante el fin de semana.. texto demasiado largo para ver como resuelve"
-        link="/components"
+        link="/cupon/2"
+      />
+      <app-coupon
+        [loading]="couponLoading()"
+        title="Cupón inexistente"
+        description="Apunta a /cupon/999: sirve para ver el estado de error de la pantalla de detalle"
+        link="/cupon/999"
       />
     </div>
+  </section>
+
+  <section class="components-page__section">
+    <h2>Pantalla de detalle</h2>
+    <p class="components-page__sample-label">
+      Tocá cualquier cupón de arriba. El mock tarda 900ms a propósito: sin esa demora el skeleton no
+      se llega a ver.
+    </p>
+
+    <button type="button" class="components-page__toggle" (click)="toggleApiFailure()">
+      {{ coupons.failNextRequest() ? 'Volver a responder bien' : 'Hacer fallar la próxima carga' }}
+    </button>
   </section>
 
   <section class="components-page__section">

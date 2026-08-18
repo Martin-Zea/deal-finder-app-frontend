@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+// La columna se limita a 480px y se centra: mobile-first, pero en desktop una
+// línea de descripción de 1200px no se lee.
+.detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+}
+
+.detail__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.detail__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.detail__description {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.detail__list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding-left: 20px;
+}

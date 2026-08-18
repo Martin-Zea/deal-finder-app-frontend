@@ -1,0 +1,14 @@
+<!--
+  track $index y no el ancho: dos líneas pueden medir lo mismo sin ser la misma
+  línea, y con el ancho como clave Angular las reordenaría al cambiar `lines`.
+-->
+<div class="skeleton">
+  @for (lineWidth of lineWidths(); track $index) {
+    <span
+      class="skeleton__block"
+      [style.width]="lineWidth"
+      [style.height]="height()"
+      [style.border-radius]="radiusToken()"
+    ></span>
+  }
+</div>

@@ -1,0 +1,59 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.store-pill {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-container);
+  color: inherit;
+  text-decoration: none;
+}
+
+.store-pill--link {
+  transition: box-shadow 150ms ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// El ancho fijo va sobre el host de app-image porque ese es el elemento que
+// vive en este template; el interior del componente no se toca desde acá.
+.store-pill__logo {
+  flex-shrink: 0;
+  width: 36px;
+}
+
+.store-pill__name {
+  overflow: hidden;
+  color: var(--color-on-surface);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Empuja el chevron al final sin un margin-left auto sobre el nombre, que se
+// rompería si algún día aparece un tercer elemento.
+.store-pill__chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  fill: none;
+  stroke: var(--color-on-surface-variant);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

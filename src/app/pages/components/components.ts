@@ -1,9 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AppBar } from '../../shared/components/app-bar/app-bar';
 import { Card } from '../../shared/components/card/card';
 import { Coupon } from '../../shared/components/coupon/coupon';
 import { CouponClip } from '../../shared/components/coupon-clip/coupon-clip';
 import { SearchBar } from '../../shared/components/search-bar/search-bar';
+import { Badge } from '../../shared/components/badge/badge';
+import { Button } from '../../shared/components/button/button';
+import { EmptyState } from '../../shared/components/empty-state/empty-state';
+import { ErrorState } from '../../shared/components/error-state/error-state';
+import { ImageBox } from '../../shared/components/image/image';
+import { Section } from '../../shared/components/section/section';
+import { Skeleton } from '../../shared/components/skeleton/skeleton';
+import { StorePill } from '../../shared/components/store-pill/store-pill';
+import { CouponService } from '../../shared/services/coupon.service';
 
 export type ThemeName = 'krazy' | 'punch' | 'organic' | 'money';
 
@@ -15,7 +24,21 @@ interface ThemeOption {
 
 @Component({
   selector: 'app-components-page',
-  imports: [AppBar, Card, Coupon, CouponClip, SearchBar],
+  imports: [
+    AppBar,
+    Badge,
+    Button,
+    Card,
+    Coupon,
+    CouponClip,
+    EmptyState,
+    ErrorState,
+    ImageBox,
+    SearchBar,
+    Section,
+    Skeleton,
+    StorePill,
+  ],
   templateUrl: './components.html',
   styleUrl: './components.scss',
 })
@@ -55,6 +78,32 @@ export class ComponentsPage {
 
   protected setTheme(name: ThemeName): void {
     this.theme.set(name);
+  }
+
+  // El catálogo es el único lugar donde tiene sentido tocar el interruptor de
+  // fallas del servicio: deja ver el estado de error de la pantalla de detalle
+  // sin desenchufar nada.
+  protected readonly coupons = inject(CouponService);
+
+  protected readonly buttonBusy = signal(false);
+
+  protected async runButtonDemo(): Promise<void> {
+    this.buttonBusy.set(true);
+    await new Promise((resolve) => setTimeout(resolve, 1400));
+    this.buttonBusy.set(false);
+  }
+
+  protected toggleApiFailure(): void {
+    this.coupons.failNextRequest.update((value) => !value);
+  }
+
+  // El interruptor de carga es lo único que hace útil al skeleton en el
+  // catálogo: la silueta solo se puede juzgar alternando contra el contenido
+  // real y viendo si la lista salta.
+  protected readonly couponLoading = signal(false);
+
+  protected toggleCouponLoading(): void {
+    this.couponLoading.update((value) => !value);
   }
 
   protected setClipped(id: string, active: boolean): void {

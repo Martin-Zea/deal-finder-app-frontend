@@ -136,3 +136,70 @@
   flex-direction: column;
   gap: 12px;
 }
+
+// Muestras del catálogo: cada variante con una etiqueta corta que diga para
+// qué sirve, porque un skeleton suelto no se explica solo.
+.components-page__sample {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.components-page__sample + .components-page__sample {
+  margin-top: 12px;
+}
+
+.components-page__sample-label {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+  font-size: 0.8rem;
+}
+
+// Simula la superficie de la pantalla de detalle para ver los primitivos en
+// contexto y no flotando sobre el fondo de la página.
+.components-page__sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-container);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.components-page__toggle {
+  align-self: flex-start;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border: 1px solid var(--color-outline);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-container);
+  color: var(--color-on-surface);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+}
+
+// Fila que envuelve: para variantes chicas (botones, badges) que se comparan
+// mejor una al lado de la otra que en columna.
+.components-page__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.components-page__row--top {
+  align-items: flex-start;
+}
+
+.components-page__sample--narrow {
+  flex: 1 1 220px;
+  max-width: 280px;
+}

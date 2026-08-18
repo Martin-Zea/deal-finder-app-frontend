@@ -1,0 +1,19 @@
+<button
+  [class]="classes()"
+  [attr.type]="type()"
+  [disabled]="isBlocked()"
+  [attr.aria-busy]="loading()"
+  (click)="onClick()"
+>
+  @if (loading()) {
+    <!--
+      El spinner es el mismo trazo circular de los iconos del proyecto: gira por
+      CSS y no por un GIF, así hereda currentColor en las tres variantes.
+    -->
+    <svg class="button__spinner" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" />
+    </svg>
+  }
+
+  <span class="button__label"><ng-content /></span>
+</button>

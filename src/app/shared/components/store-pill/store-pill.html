@@ -1,0 +1,26 @@
+@if (link(); as href) {
+  <a class="store-pill store-pill--link" [routerLink]="href">
+    <app-image
+      class="store-pill__logo"
+      [src]="logoUrl()"
+      [alt]="storeName()"
+      radius="pill"
+      fit="contain"
+    />
+    <span class="store-pill__name">{{ storeName() }}</span>
+    <svg class="store-pill__chevron" viewBox="0 0 24 24" aria-hidden="true">
+      <polyline points="9 5 16 12 9 19" />
+    </svg>
+  </a>
+} @else {
+  <span class="store-pill">
+    <app-image
+      class="store-pill__logo"
+      [src]="logoUrl()"
+      [alt]="storeName()"
+      radius="pill"
+      fit="contain"
+    />
+    <span class="store-pill__name">{{ storeName() }}</span>
+  </span>
+}

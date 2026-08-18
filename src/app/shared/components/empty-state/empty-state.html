@@ -1,0 +1,22 @@
+<!--
+  Tres ranuras: el icono, el texto y las acciones. El icono se proyecta en vez
+  de elegirse por input para que cada pantalla dibuje el suyo sin que este
+  componente acumule un catálogo de svg que no le corresponde.
+-->
+<div [class]="classes()">
+  <div class="empty-state__icon">
+    <ng-content select="[icon]" />
+  </div>
+
+  @if (heading()) {
+    <p class="empty-state__heading">{{ heading() }}</p>
+  }
+
+  @if (message()) {
+    <p class="empty-state__message">{{ message() }}</p>
+  }
+
+  <div class="empty-state__actions">
+    <ng-content />
+  </div>
+</div>

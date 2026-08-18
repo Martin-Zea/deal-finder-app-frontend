@@ -32,6 +32,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  // Sin esto la columna 'auto' de la grilla crece con el título largo en vez de
+  // dejar que el texto se corte, y empuja las acciones fuera de la barra.
+  min-width: 0;
 }
 
 .app-bar__logo {
@@ -108,4 +112,18 @@
   font-weight: 800;
   line-height: 1;
   transform: translate(-50%, -50%);
+}
+
+// El título de pantalla ocupa el mismo centro que la marca. Se corta a una
+// línea con ellipsis: la barra tiene alto fijo y un título largo no puede
+// empujar el contenido de la página hacia abajo.
+.app-bar__heading {
+  overflow: hidden;
+  margin: 0;
+  color: var(--color-on-surface);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

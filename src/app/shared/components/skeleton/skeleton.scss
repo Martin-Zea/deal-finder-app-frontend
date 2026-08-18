@@ -1,0 +1,67 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+// height: 100% deja que un bloque pueda llenar un contenedor de alto definido
+// (el thumb cuadrado de coupon). Cuando el host no tiene alto, el porcentaje
+// resuelve a auto y no cambia nada.
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+}
+
+// El tono base es el mismo que ya usan los placeholders de card y coupon; el
+// brillo que barre es el vecino de la escala. Ninguno es un hex suelto.
+.skeleton__block {
+  display: block;
+  flex-shrink: 0;
+  background-color: var(--color-outline-variant);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-neutral-950) 50%,
+    transparent 100%
+  );
+  background-repeat: no-repeat;
+  background-size: 200% 100%;
+
+  // Dos animaciones con trabajos distintos: el barrido, y un fade que empieza
+  // recién a los 150ms. Si la API contesta antes, el skeleton nunca llega a
+  // verse y se evita el parpadeo, sin timers en TypeScript.
+  animation:
+    skeleton-shimmer 1400ms ease-in-out infinite,
+    skeleton-appear 200ms ease-out 150ms both;
+}
+
+// Ojo: Angular scopea los selectores pero NO los nombres de @keyframes, que
+// quedan globales. De ahí el prefijo con el nombre del componente.
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 150% 0;
+  }
+
+  to {
+    background-position: -50% 0;
+  }
+}
+
+@keyframes skeleton-appear {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Se respeta una sola vez, acá, y no en cada pantalla que muestre un skeleton.
+@media (prefers-reduced-motion: reduce) {
+  .skeleton__block {
+    background-image: none;
+    animation: none;
+  }
+}

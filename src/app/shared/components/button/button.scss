@@ -1,0 +1,112 @@
+:host {
+  display: inline-flex;
+  max-width: 100%;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    box-shadow 150ms ease,
+    transform 150ms ease;
+
+  // El velo interno oscurece cualquier fondo sin necesidad de un token de hover
+  // por variante ni de un hex: sirve igual sobre el amarillo y sobre el magenta.
+  &:hover:not(:disabled) {
+    box-shadow: inset 0 0 0 999px rgba(0, 0, 0, 0.06);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+}
+
+// El CTA es el único lugar donde el color de marca ocupa una superficie: el par
+// brand-surface / on-brand-surface ya resuelve la tinta legible en los cuatro
+// temas, incluido el amarillo con tinta negra.
+.button--filled {
+  background: var(--color-brand-surface);
+  color: var(--color-on-brand-surface);
+}
+
+.button--outlined {
+  border-color: var(--color-outline);
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.button--text {
+  padding: 0 12px;
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.button--lg {
+  min-height: 52px;
+  padding: 0 28px;
+  font-size: 1rem;
+}
+
+.button--block {
+  width: 100%;
+}
+
+:host(.button--block) {
+  width: 100%;
+}
+
+.button__label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.button__spinner {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+
+  // El arco corto sobre una circunferencia de r=9 (~56.5 de perímetro): 14 de
+  // trazo y el resto de hueco.
+  stroke-dasharray: 14 44;
+  animation: button-spin 900ms linear infinite;
+}
+
+@keyframes button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Sin movimiento el spinner igual tiene que comunicar: se queda quieto como un
+// aro incompleto en vez de desaparecer.
+@media (prefers-reduced-motion: reduce) {
+  .button__spinner {
+    animation: none;
+  }
+}

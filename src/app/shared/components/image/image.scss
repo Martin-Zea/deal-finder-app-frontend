@@ -1,0 +1,27 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.image {
+  overflow: hidden;
+  width: 100%;
+  background: var(--color-surface);
+}
+
+.image__frame {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Mismo patrón de rayas que ya usan card y coupon. Queda repetido a propósito:
+// reemplazar los placeholders de esos dos componentes es un cambio aparte, y
+// este componente tenía que poder pararse solo antes.
+.image__frame--placeholder {
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--color-outline-variant) 0 10px,
+    var(--color-outline) 10px 20px
+  );
+}

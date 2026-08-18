@@ -1,0 +1,13 @@
+<!--
+  Reusa el esqueleto de empty-state en vez de repetir el mismo layout centrado:
+  lo único propio del error es el tono, el icono y el botón.
+-->
+<app-empty-state tone="urgent" [heading]="heading()" [message]="message()">
+  <svg icon viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M12 3 2.5 20h19L12 3Z" />
+    <line x1="12" y1="10" x2="12" y2="14" />
+    <line x1="12" y1="17" x2="12.01" y2="17" />
+  </svg>
+
+  <app-button variant="outlined" (pressed)="retry.emit()">{{ retryLabel() }}</app-button>
+</app-empty-state>

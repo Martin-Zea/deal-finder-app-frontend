@@ -1,0 +1,84 @@
+<app-app-bar [showBack]="true" [heading]="headingText()" (backClick)="goBack()" />
+
+<!--
+  Las tres ramas del resource, en el mismo orden en que ocurren. aria-busy es lo
+  que avisa del estado a un lector de pantalla: los skeletons de adentro van
+  marcados aria-hidden y no dicen nada por su cuenta.
+-->
+<main class="detail" [attr.aria-busy]="detail.isLoading()">
+  @if (detail.isLoading()) {
+    <app-skeleton height="200px" radius="lg" />
+
+    <div class="detail__badges">
+      <app-skeleton width="120px" height="26px" radius="pill" />
+      <app-skeleton width="96px" height="26px" radius="pill" />
+    </div>
+
+    <app-skeleton width="65%" height="1.6rem" />
+    <app-skeleton [lines]="2" />
+    <app-skeleton height="48px" radius="pill" />
+    <app-skeleton height="52px" radius="pill" />
+  } @else if (detail.error()) {
+    <app-error-state
+      heading="No pudimos cargar el cupón"
+      message="El servidor de cupones no respondió. Podés volver a intentarlo."
+      (retry)="detail.reload()"
+    />
+  } @else if (detail.value(); as coupon) {
+    <app-image
+      [src]="coupon.imageUrl"
+      [alt]="coupon.title"
+      ratio="16 / 9"
+      radius="lg"
+      fit="contain"
+    />
+
+    <div class="detail__badges">
+      <app-badge tone="savings">{{ coupon.savingsLabel }}</app-badge>
+      <app-badge [tone]="coupon.expiresSoon ? 'urgent' : 'neutral'">
+        {{ coupon.expiresLabel }}
+      </app-badge>
+    </div>
+
+    <h2 class="detail__title">{{ coupon.title }}</h2>
+    <p class="detail__description">{{ coupon.description }}</p>
+
+    <app-store-pill
+      [storeName]="coupon.storeName"
+      [logoUrl]="coupon.storeLogoUrl"
+      link="/components"
+    />
+
+    <!--
+      El botón no vuelve a "Activar cupón" después de activarse: deshacerlo es
+      otra acción y todavía no existe, así que ofrecerla sería mentir.
+    -->
+    <app-button
+      size="lg"
+      [fullWidth]="true"
+      [loading]="activating()"
+      [disabled]="activated()"
+      (pressed)="activate()"
+    >
+      {{ activated() ? 'Cupón activado' : 'Activar cupón' }}
+    </app-button>
+
+    @if (coupon.products.length) {
+      <app-section heading="Productos incluidos">
+        <ul class="detail__list">
+          @for (product of coupon.products; track product) {
+            <li>{{ product }}</li>
+          }
+        </ul>
+      </app-section>
+    }
+
+    <app-section heading="Términos">
+      <ul class="detail__list">
+        @for (term of coupon.terms; track term) {
+          <li>{{ term }}</li>
+        }
+      </ul>
+    </app-section>
+  }
+</main>

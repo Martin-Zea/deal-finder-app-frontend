@@ -1,0 +1,13 @@
+<div class="image" [style.aspect-ratio]="ratio()" [style.border-radius]="radiusToken()">
+  @if (showPlaceholder()) {
+    <div class="image__frame image__frame--placeholder"></div>
+  } @else {
+    <img
+      class="image__frame"
+      [src]="src()"
+      [alt]="alt()"
+      [style.object-fit]="fit()"
+      (error)="onError()"
+    />
+  }
+</div>

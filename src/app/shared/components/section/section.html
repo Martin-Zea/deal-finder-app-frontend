@@ -1,0 +1,13 @@
+<section class="section">
+  @if (heading()) {
+    @if (level() === 2) {
+      <h2 class="section__heading">{{ heading() }}</h2>
+    } @else {
+      <h3 class="section__heading">{{ heading() }}</h3>
+    }
+  }
+
+  <div class="section__body">
+    <ng-content />
+  </div>
+</section>

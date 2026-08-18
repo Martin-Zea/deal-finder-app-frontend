@@ -5,6 +5,15 @@
 -->
 <header class="app-bar">
   <div class="app-bar__side">
+    @if (showBack()) {
+      <button type="button" class="app-bar__action" aria-label="Volver" (click)="backClick.emit()">
+        <svg class="app-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <line x1="20" y1="12" x2="5" y2="12" />
+          <polyline points="12 5 5 12 12 19" />
+        </svg>
+      </button>
+    }
+
     @if (showMenu()) {
       <button
         type="button"
@@ -22,7 +31,9 @@
   </div>
 
   <div class="app-bar__brand">
-    @if (logoUrl(); as src) {
+    @if (heading(); as text) {
+      <h1 class="app-bar__heading">{{ text }}</h1>
+    } @else if (logoUrl(); as src) {
       <img class="app-bar__logo" [src]="src" [alt]="brandName()" />
     } @else {
       <span class="app-bar__mark" [attr.aria-label]="brandName()" role="img">{{ initial() }}</span>
