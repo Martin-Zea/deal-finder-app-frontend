@@ -114,9 +114,7 @@ export class AuthService {
   // acá es mejor que enterarse con el primer 401 en el medio de una pantalla.
   private async validateSession(): Promise<void> {
     try {
-      const user = await firstValueFrom(
-        this.http.get<User>(`${environment.apiBaseUrl}/auth/me`),
-      );
+      const user = await firstValueFrom(this.http.get<User>(`${environment.apiBaseUrl}/auth/me`));
 
       this.currentUser.set(user);
       writeStoredUser(user);

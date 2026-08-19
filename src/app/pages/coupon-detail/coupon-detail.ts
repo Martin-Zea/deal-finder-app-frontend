@@ -36,7 +36,15 @@ export class CouponDetailPage {
   // Mientras carga, la barra no puede mostrar el título del cupón porque
   // todavía no existe. Un genérico corto es mejor que una barra vacía que
   // después empuja el layout.
-  protected readonly headingText = computed(() => this.detail.value()?.title ?? 'Cupón');
+  //
+  // hasValue() y no value() a secas: cuando el resource está en error, value()
+  // lanza. Y como esto se pinta en la barra —fuera del @if que cubre el resto de
+  // la pantalla— esa excepción rompía la detección de cambios antes de llegar a
+  // la rama de error, y el detalle se quedaba en siluetas para siempre en vez de
+  // ofrecer «Reintentar».
+  protected readonly headingText = computed(() =>
+    this.detail.hasValue() ? this.detail.value().title : 'Cupón',
+  );
 
   protected readonly activating = signal(false);
 
