@@ -323,8 +323,8 @@
   <section class="components-page__section">
     <h2>Pantalla de detalle</h2>
     <p class="components-page__sample-label">
-      Tocá cualquier cupón de arriba. El mock tarda 900ms a propósito: sin esa demora el skeleton no
-      se llega a ver.
+      Tocá cualquier cupón de arriba. Si la API responde al instante el skeleton no se llega a ver:
+      poné SIMULATED_LATENCY_MS=900 en el .env del backend para poder mirarlo.
     </p>
 
     <button type="button" class="components-page__toggle" (click)="toggleApiFailure()">

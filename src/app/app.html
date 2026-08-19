@@ -23,6 +23,16 @@
     Continuar con Google
   </app-button>
 
+  <!--
+    Va debajo del botón y no arriba del título: el usuario acaba de tocarlo y es
+    ahí donde está mirando cuando el intento falla.
+  -->
+  @if (auth.signInError()) {
+    <p class="login__error" role="alert">
+      No pudimos conectarnos con el servidor. Probá de nuevo en un momento.
+    </p>
+  }
+
   <!-- Salida siempre visible: el login no puede ser un callejón sin salida. -->
   <app-button variant="text" [fullWidth]="true" (pressed)="auth.dismissPrompt()">
     Ahora no

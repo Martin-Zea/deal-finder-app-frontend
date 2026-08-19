@@ -1,8 +1,9 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
+import { authInterceptor } from './shared/services/auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +19,9 @@ export const appConfig: ApplicationConfig = {
       // lista, aunque el cupón estuviera décimo.
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
     ),
-    // Todavía no lo usa nadie —los datos salen de un mock—, pero es el
-    // proveedor que necesita httpResource() el día que exista la API, y sin él
-    // el reemplazo falla en runtime en vez de en compilación.
-    provideHttpClient(),
+    // El interceptor adjunta el token en cada request. Va acá y no en cada
+    // servicio para que ninguno pueda olvidarse: el día que se agregue un
+    // servicio nuevo, la sesión ya viaja sola.
+    provideHttpClient(withInterceptors([authInterceptor])),
   ],
 };
